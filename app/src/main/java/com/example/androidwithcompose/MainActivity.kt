@@ -14,9 +14,19 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.ArrowBack
+import androidx.compose.material.icons.filled.MoreVert
 import androidx.compose.material3.Card
+import androidx.compose.material3.ExperimentalMaterial3Api
+import androidx.compose.material3.Icon
+import androidx.compose.material3.IconButton
+import androidx.compose.material3.MediumTopAppBar
+import androidx.compose.material3.Scaffold
+import androidx.compose.material3.SmallTopAppBar
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
+import androidx.compose.material3.TopAppBar
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -26,6 +36,9 @@ import androidx.compose.ui.graphics.painter.Painter
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.TextStyle
+import androidx.compose.ui.text.font.Font
+import androidx.compose.ui.text.font.FontFamily
+import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
@@ -36,15 +49,69 @@ class MainActivity : ComponentActivity() {
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
         setContent {
-            val painter = painterResource(R.drawable.images)
-            val description = "We can see a car in the snow"
-            val title = "We can see a car in the snow"
-            Box(modifier = Modifier.fillMaxWidth(0.5f)) {
-                ImageCard(painter = painter, title = title, description = description)
-            }
+
+            ExploreText()
         }
     }
 }
+
+@Composable
+fun ExploreText() {
+    val fontFamily = FontFamily(
+        Font(R.font.rasa_bold, FontWeight.Bold),
+        Font(R.font.rasa_light, FontWeight.Thin),
+        Font(R.font.rasa_medium, FontWeight.Normal)
+    )
+    Scaffold(
+        topBar = { MySmallAppBar() },
+        content = { paddingValues ->
+            Box(
+                modifier = Modifier
+                    .fillMaxSize()
+                    .background(color = Color.Black)
+            ) {
+                Text(
+                    "Explore String",
+                    color = Color.White,
+                    fontSize = 20.sp,
+                    modifier = Modifier.padding(paddingValues),
+                    fontFamily = fontFamily
+                )
+            }
+        }
+    )
+
+}
+
+@OptIn(ExperimentalMaterial3Api::class)
+@Composable
+fun MySmallAppBar() {
+    TopAppBar(
+        title = { Text("Small AppBar") },
+        navigationIcon = {
+            IconButton(onClick = { /* Handle navigation */ }) {
+                Icon(Icons.Default.ArrowBack, contentDescription = "Back")
+            }
+        },
+        actions = {
+            IconButton(onClick = { /* Handle action */ }) {
+                Icon(Icons.Default.MoreVert, contentDescription = "More options")
+            }
+        }
+    )
+}
+
+
+@Composable
+fun ImageCardContent() {
+    val painter = painterResource(R.drawable.images)
+    val description = "We can see a car in the snow"
+    val title = "We can see a car in the snow"
+    Box(modifier = Modifier.fillMaxWidth(0.5f)) {
+        ImageCard(painter = painter, title = title, description = description)
+    }
+}
+
 
 @Composable
 fun ImageCard(painter: Painter, title: String, description: String, modifier: Modifier = Modifier) {
